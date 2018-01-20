@@ -3,12 +3,16 @@ local borderWidth = 2
 local cellDrawSize
 local grid
 
-local x, y = 0, 0
+local x, y
 local zoom = 1
 local rotation = 0
 
 function love.load()
     love.keyboard.setKeyRepeat(true)
+    width = love.graphics.getWidth()
+    x = width / 2
+    height = love.graphics.getHeight()
+    y = height / 2
     cellDrawSize = cellSize - borderWidth
     grid = generateGrid(love.graphics.getWidth() / cellSize, love.graphics.getHeight() / cellSize)
 end
@@ -18,9 +22,11 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.translate(-x, -y)
+    love.graphics.translate(width / 2, height / 2)
     love.graphics.rotate(-rotation)
     love.graphics.scale(1 / zoom, 1 / zoom)
-    love.graphics.translate(-x, -y)
+    love.graphics.translate(-width / 2, -height / 2)
     drawGrid(grid)
 end
 
@@ -29,16 +35,16 @@ function love.keypressed(key)
         love.event.quit()
     end
     if key == "w" then
-        y = y - 1
+        y = y - 5
     end
     if key == "s" then
-        y = y + 1
+        y = y + 5
     end
     if key == "a" then
-        x = x - 1
+        x = x - 5
     end
     if key == "d" then
-        x = x + 1
+        x = x + 5
     end
     if key == "q" then
         rotation = rotation + 0.05
