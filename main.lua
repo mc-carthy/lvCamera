@@ -18,6 +18,7 @@ function love.load()
 end
 
 function love.update(dt)
+    checkKeyboardInput(dt)
     Camera:setPosition(x, y)
     Camera:setScale(zoom, zoom)
     Camera:setRotation(rotation)
@@ -36,30 +37,6 @@ end
 function love.keypressed(key)
     if key == "escape" then
         love.event.quit()
-    end
-    if key == "w" then
-        y = y - 5
-    end
-    if key == "s" then
-        y = y + 5
-    end
-    if key == "a" then
-        x = x - 5
-    end
-    if key == "d" then
-        x = x + 5
-    end
-    if key == "q" then
-        rotation = rotation + 0.05
-    end
-    if key == "e" then
-        rotation = rotation - 0.05
-    end
-    if key == "z" then
-        zoom = zoom + 0.05
-    end
-    if key == "x" then
-        zoom = zoom - 0.05
     end
 end
 
@@ -82,5 +59,41 @@ function drawGrid(grid)
             love.graphics.setColor(127, 127, 127)
             love.graphics.rectangle('fill', (x - 1) * cellSize, (y - 1) * cellSize, cellDrawSize, cellDrawSize)
         end
+    end
+end
+
+function checkKeyboardInput(dt)
+    tempX, tempY = 0, 0
+
+    if love.keyboard.isDown("w") then
+        tempY = tempY - Camera.panSpeed * dt
+    end
+
+    if love.keyboard.isDown("s") then
+        tempY = tempY + Camera.panSpeed * dt
+    end
+    
+    if love.keyboard.isDown("a") then
+        tempX = tempX - Camera.panSpeed * dt
+    end
+
+    if love.keyboard.isDown("d") then
+        tempX = tempX + Camera.panSpeed * dt
+    end
+
+    x = x + tempX
+    y = y + tempY
+
+    if love.keyboard.isDown("q") then
+        rotation = rotation + Camera.rotateSpeed * dt
+    end
+    if love.keyboard.isDown("e") then
+        rotation = rotation - Camera.rotateSpeed * dt
+    end
+    if love.keyboard.isDown("z") then
+        zoom = zoom + Camera.zoomSpeed * dt
+    end
+    if love.keyboard.isDown("x") then
+        zoom = zoom - Camera.zoomSpeed * dt
     end
 end
