@@ -1,33 +1,32 @@
+local Camera = require("src.camera")
+
 local cellSize = 20
 local borderWidth = 2
 local cellDrawSize
 local grid
 
-local x, y
+local x, y = 0, 0
 local zoom = 1
 local rotation = 0
 
 function love.load()
     love.keyboard.setKeyRepeat(true)
     width = love.graphics.getWidth()
-    x = width / 2
     height = love.graphics.getHeight()
-    y = height / 2
     cellDrawSize = cellSize - borderWidth
     grid = generateGrid(love.graphics.getWidth() / cellSize, love.graphics.getHeight() / cellSize)
 end
 
 function love.update(dt)
-
+    Camera:setPosition(x, y)
+    Camera:setScale(zoom, zoom)
+    Camera:setRotation(rotation)
 end
 
 function love.draw()
-    love.graphics.translate(-x, -y)
-    love.graphics.translate(width / 2, height / 2)
-    love.graphics.rotate(-rotation)
-    love.graphics.scale(1 / zoom, 1 / zoom)
-    love.graphics.translate(-width / 2, -height / 2)
+    Camera:set()
     drawGrid(grid)
+    Camera:unset()
 end
 
 function love.keypressed(key)
