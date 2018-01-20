@@ -46,6 +46,10 @@ end
 
 function camera:setRotation(rot)
     self.rotation = rot
-  end
+end
+
+function camera:mouseWorldPosition()
+    return love.mouse.getX() * self.scaleX + self.x, love.mouse.getY() * self.scaleY + self.y
+end
 
 return camera

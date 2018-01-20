@@ -21,12 +21,16 @@ function love.update(dt)
     Camera:setPosition(x, y)
     Camera:setScale(zoom, zoom)
     Camera:setRotation(rotation)
+    mouseX, mouseY = Camera:mouseWorldPosition()
 end
 
 function love.draw()
+    love.graphics.setBackgroundColor(215, 215, 215, 255)
     Camera:set()
     drawGrid(grid)
     Camera:unset()
+    love.graphics.setColor(0, 0, 0, 255)
+    love.graphics.print('Mouse position: ' .. mouseX .. '-' .. mouseY)
 end
 
 function love.keypressed(key)
